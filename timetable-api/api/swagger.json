@@ -1,0 +1,100 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/events": {
+            "post": {
+                "description": "Ajoute un événement (cours) dans la base",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "events"
+                ],
+                "summary": "Crée un événement",
+                "parameters": [
+                    {
+                        "description": "Nouvel événement à créer",
+                        "name": "event",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Event"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Event"
+                        }
+                    },
+                    "400": {
+                        "description": "Requête invalide",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Event": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "description": "Description du cours",
+                    "type": "string"
+                },
+                "end": {
+                    "description": "Date et heure de fin",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "ID unique de l’événement",
+                    "type": "string"
+                },
+                "lastUpdate": {
+                    "description": "Dernière mise à jour",
+                    "type": "string"
+                },
+                "location": {
+                    "description": "Salle",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "Nom du cours (affiché)",
+                    "type": "string"
+                },
+                "resourceIds": {
+                    "description": "IDs des resources associées",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "start": {
+                    "description": "Date et heure de début",
+                    "type": "string"
+                },
+                "uid": {
+                    "description": "Identifiant unique externe",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

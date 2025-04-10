@@ -1,0 +1,67 @@
+definitions:
+  models.Event:
+    properties:
+      description:
+        description: Description du cours
+        type: string
+      end:
+        description: Date et heure de fin
+        type: string
+      id:
+        description: ID unique de l’événement
+        type: string
+      lastUpdate:
+        description: Dernière mise à jour
+        type: string
+      location:
+        description: Salle
+        type: string
+      name:
+        description: Nom du cours (affiché)
+        type: string
+      resourceIds:
+        description: IDs des resources associées
+        items:
+          type: string
+        type: array
+      start:
+        description: Date et heure de début
+        type: string
+      uid:
+        description: Identifiant unique externe
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /events:
+    post:
+      consumes:
+      - application/json
+      description: Ajoute un événement (cours) dans la base
+      parameters:
+      - description: Nouvel événement à créer
+        in: body
+        name: event
+        required: true
+        schema:
+          $ref: '#/definitions/models.Event'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Event'
+        "400":
+          description: Requête invalide
+          schema:
+            type: string
+        "500":
+          description: Erreur serveur
+          schema:
+            type: string
+      summary: Crée un événement
+      tags:
+      - events
+swagger: "2.0"
