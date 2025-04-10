@@ -156,7 +156,7 @@ func GetResourceByID(id uuid.UUID) (*models.Resource, error) {
 }
 
 func GetAlertByID(id uuid.UUID) (*models.Alert, error) {
-	row := helpers.DB.QueryRow("SELECT id, email, resource, when, created_at FROM alerts WHERE id = ?", id.String())
+	row := helpers.DB.QueryRow(`SELECT id, email, resource, "when", created_at FROM alerts WHERE id = ?`, id.String())
 
 	var a models.Alert
 	var idStr, resourceStr string

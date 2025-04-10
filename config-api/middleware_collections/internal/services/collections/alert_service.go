@@ -33,8 +33,8 @@ func GetAlerts() ([]models.Alert, error) {
 }
 
 // GetResourceByID
-func GetResourceByID(id uuid.UUID) (*models.Resource, error) {
-	return repository.GetResourceByID(id)
+func GetAlertByID(id uuid.UUID) (*models.Alert, error) {
+	return repository.GetAlertByID(id)
 }
 
 // UpdateAlert

@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gofrs/uuid"
+	"github.com/sirupsen/logrus"
 )
 
 // GetAlertHandler gère GET /alerts/{id}
@@ -16,8 +17,8 @@ func GetAlertHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "ID invalide", http.StatusBadRequest)
 		return
 	}
-
 	result, err := alertService.GetAlertByID(id)
+	logrus.Info(result)
 	if err != nil {
 		http.Error(w, "Resource introuvable", http.StatusNotFound)
 		return
