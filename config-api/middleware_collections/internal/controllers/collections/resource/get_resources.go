@@ -1,0 +1,19 @@
+package resource
+
+import (
+	"encoding/json"
+	resouceService "middleware_collections/internal/services/collections"
+	"net/http"
+)
+
+// GET /resources
+func GetResourcesHandler(w http.ResponseWriter, r *http.Request) {
+	resources, err := resouceService.GetResources()
+	if err != nil {
+		http.Error(w, "Erreur lors de la récupération des resources", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(resources)
+}
