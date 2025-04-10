@@ -6,7 +6,14 @@ import (
 	"net/http"
 )
 
-// GET /resources
+// GetResourcesHandler godoc
+// @Summary      Liste toutes les resources
+// @Description  Retourne tous les emplois du temps configurés
+// @Tags         resources
+// @Produce      json
+// @Success      200  {array}   models.Resource
+// @Failure      500  {string}  string "Erreur serveur"
+// @Router       /resources [get]
 func GetResourcesHandler(w http.ResponseWriter, r *http.Request) {
 	resources, err := resouceService.GetResources()
 	if err != nil {

@@ -1,0 +1,269 @@
+basePath: /
+definitions:
+  models.Alert:
+    properties:
+      created_at:
+        type: string
+      email:
+        description: email à notifier
+        type: string
+      id:
+        type: string
+      timetable_id:
+        description: clé étrangère vers Timetable
+        type: string
+      when:
+        description: always, room, added, removed
+        type: string
+    type: object
+  models.Resource:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: string
+      name:
+        description: 'ex: "M1 Groupe 1"'
+        type: string
+      url:
+        description: URL pour récupérer les cours
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API pour gérer les emplois du temps et alertes
+  title: Timetable Alerter API
+  version: "1.0"
+paths:
+  /alerts:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Alert'
+            type: array
+        "500":
+          description: Erreur serveur
+          schema:
+            type: string
+      summary: Liste toutes les alertes
+      tags:
+      - alerts
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Nouvelle alerte
+        in: body
+        name: alert
+        required: true
+        schema:
+          $ref: '#/definitions/models.Alert'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Alert'
+        "400":
+          description: JSON invalide ou UUID incorrect
+          schema:
+            type: string
+        "500":
+          description: Erreur serveur
+          schema:
+            type: string
+      summary: Crée une alerte
+      tags:
+      - alerts
+  /alerts/{id}:
+    delete:
+      parameters:
+      - description: ID de l'alerte
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: Suppression réussie
+          schema:
+            type: string
+        "400":
+          description: ID invalide
+          schema:
+            type: string
+      summary: Supprime une alerte
+      tags:
+      - alerts
+    get:
+      parameters:
+      - description: ID de l'alerte
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Alert'
+        "404":
+          description: Alerte non trouvée
+          schema:
+            type: string
+      summary: Récupère une alerte
+      tags:
+      - alerts
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID de l'alerte
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Alerte mise à jour
+        in: body
+        name: alert
+        required: true
+        schema:
+          $ref: '#/definitions/models.Alert'
+      responses:
+        "204":
+          description: Mise à jour réussie
+          schema:
+            type: string
+        "400":
+          description: ID ou JSON invalide
+          schema:
+            type: string
+      summary: Met à jour une alerte
+      tags:
+      - alerts
+  /resources:
+    get:
+      description: Retourne tous les emplois du temps configurés
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Resource'
+            type: array
+        "500":
+          description: Erreur serveur
+          schema:
+            type: string
+      summary: Liste toutes les resources
+      tags:
+      - resources
+    post:
+      consumes:
+      - application/json
+      description: Ajoute un emploi du temps dans la base
+      parameters:
+      - description: Données de la resource
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/models.Resource'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Resource'
+        "400":
+          description: JSON invalide
+          schema:
+            type: string
+        "500":
+          description: Erreur serveur
+          schema:
+            type: string
+      summary: Crée une resource
+      tags:
+      - resources
+  /resources/{id}:
+    delete:
+      parameters:
+      - description: ID de la resource
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: Suppression réussie
+          schema:
+            type: string
+        "400":
+          description: ID invalide
+          schema:
+            type: string
+      summary: Supprime une resource
+      tags:
+      - resources
+    get:
+      parameters:
+      - description: ID de la resource
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Resource'
+        "404":
+          description: Resource non trouvée
+          schema:
+            type: string
+      summary: Récupère une resource par ID
+      tags:
+      - resources
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID de la resource
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Données mises à jour
+        in: body
+        name: resource
+        required: true
+        schema:
+          $ref: '#/definitions/models.Resource'
+      responses:
+        "204":
+          description: Mise à jour réussie
+          schema:
+            type: string
+        "400":
+          description: Requête invalide
+          schema:
+            type: string
+      summary: Met à jour une resource
+      tags:
+      - resources
+swagger: "2.0"

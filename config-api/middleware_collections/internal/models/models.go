@@ -6,7 +6,7 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-// Timetable représente un emploi du temps
+// Resource représente un emploi du temps
 type Resource struct {
 	ID        uuid.UUID `json:"id"`
 	Name      string    `json:"name"` // ex: "M1 Groupe 1"
@@ -18,8 +18,8 @@ type Resource struct {
 type Alert struct {
 	ID        uuid.UUID `json:"id"`
 	Email     string    `json:"email"`        // email à notifier
-	Resource  uuid.UUID `json:"timetable_id"` // clé étrangère vers Timetable
-	When      string    `json:"when"`         // always, room, added, removed
+	Resource  uuid.UUID `json:"timetable_id"` // clé étrangère vers Resource
+	When      string    `json:"when"`
 	CreatedAt time.Time `json:"created_at"`
 }
 

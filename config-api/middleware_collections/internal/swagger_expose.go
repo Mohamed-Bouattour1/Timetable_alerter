@@ -1,14 +1,19 @@
+// @title           Timetable Alerter API
+// @version         1.0
+// @description     API pour gérer les emplois du temps et alertes
+// @host      localhost:8080
+// @BasePath  /
+
 package internal
 
 import (
 	alertsCtrl "middleware_collections/internal/controllers/collections/alert"
 	resourcesCtrl "middleware_collections/internal/controllers/collections/resource"
-	"net/http"
 
 	"github.com/go-chi/chi/v5"
 )
 
-func SetupRoutes() http.Handler {
+func SetupRoutes() *chi.Mux {
 	r := chi.NewRouter()
 
 	// ROUTES RESOURCES

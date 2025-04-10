@@ -6,7 +6,13 @@ import (
 	"net/http"
 )
 
-// GET /alerts
+// GetAlertsHandler godoc
+// @Summary      Liste toutes les alertes
+// @Tags         alerts
+// @Produce      json
+// @Success      200  {array}   models.Alert
+// @Failure      500  {string}  string "Erreur serveur"
+// @Router       /alerts [get]
 func GetAlertsHandler(w http.ResponseWriter, r *http.Request) {
 	alerts, err := alertService.GetAlerts()
 	if err != nil {

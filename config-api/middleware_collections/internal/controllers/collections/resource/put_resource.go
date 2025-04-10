@@ -9,7 +9,15 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-// PUT /resources/{id}
+// PutResourceHandler godoc
+// @Summary      Met à jour une resource
+// @Tags         resources
+// @Accept       json
+// @Param        id        path      string           true  "ID de la resource"
+// @Param        resource  body      models.Resource  true  "Données mises à jour"
+// @Success      204       {string}  string "Mise à jour réussie"
+// @Failure      400       {string}  string "Requête invalide"
+// @Router       /resources/{id} [put]
 func PutResourceHandler(w http.ResponseWriter, r *http.Request) {
 	idStr := r.Context().Value("resourceID").(string)
 	id, err := uuid.FromString(idStr)

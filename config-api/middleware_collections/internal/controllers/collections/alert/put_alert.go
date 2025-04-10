@@ -9,7 +9,15 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-// PUT /alerts/{id}
+// PutAlertHandler godoc
+// @Summary      Met à jour une alerte
+// @Tags         alerts
+// @Accept       json
+// @Param        id     path      string        true  "ID de l'alerte"
+// @Param        alert  body      models.Alert  true  "Alerte mise à jour"
+// @Success      204    {string}  string "Mise à jour réussie"
+// @Failure      400    {string}  string "ID ou JSON invalide"
+// @Router       /alerts/{id} [put]
 func PutAlertHandler(w http.ResponseWriter, r *http.Request) {
 	idStr := r.Context().Value("alertID").(string)
 	id, err := uuid.FromString(idStr)

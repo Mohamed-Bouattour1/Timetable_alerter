@@ -7,7 +7,13 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-// DELETE /resources/{id}
+// DeleteResourceHandler godoc
+// @Summary      Supprime une resource
+// @Tags         resources
+// @Param        id   path      string  true  "ID de la resource"
+// @Success      204  {string}  string "Suppression réussie"
+// @Failure      400  {string}  string "ID invalide"
+// @Router       /resources/{id} [delete]
 func DeleteResourceHandler(w http.ResponseWriter, r *http.Request) {
 	idStr := r.Context().Value("resourceID").(string)
 	id, err := uuid.FromString(idStr)

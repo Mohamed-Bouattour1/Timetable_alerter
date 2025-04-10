@@ -6,7 +6,17 @@ import (
 	"net/http"
 )
 
-// POST /resources
+// PostResourceHandler godoc
+// @Summary      Crée une resource
+// @Description  Ajoute un emploi du temps dans la base
+// @Tags         resources
+// @Accept       json
+// @Produce      json
+// @Param        resource  body      models.Resource  true  "Données de la resource"
+// @Success      201       {object}  models.Resource
+// @Failure      400       {string}  string "JSON invalide"
+// @Failure      500       {string}  string "Erreur serveur"
+// @Router       /resources [post]
 func PostResourceHandler(w http.ResponseWriter, r *http.Request) {
 	var body struct {
 		Name string `json:"name"`

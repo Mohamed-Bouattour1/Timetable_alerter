@@ -10,19 +10,25 @@ import (
 	"middleware_collections/internal"
 	"middleware_collections/internal/helpers"
 	"middleware_collections/internal/repositories/collections"
+
+	_ "middleware_collections/api"
+
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 func main() {
 	// Init BDD SQLite
 	helpers.InitDB()
 
-	// Création des tables si elles n’existent pas
+	// Création des tables
 	if err := collections.CreateTables(); err != nil {
 		logrus.Fatal("Erreur création des tables :", err)
 	}
 
 	// Création des routes
 	r := internal.SetupRoutes()
+
+	r.Handle("/swagger/*", httpSwagger.Handler(httpSwagger.URL("http://localhost:8080/swagger/doc.json")))
 
 	// Port 8080 si pas de var d'env
 	port := os.Getenv("API_CONFIG_PORT")

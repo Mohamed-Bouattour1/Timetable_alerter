@@ -9,7 +9,14 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// GetAlertHandler gère GET /alerts/{id}
+// GetAlertHandler godoc
+// @Summary      Récupère une alerte
+// @Tags         alerts
+// @Produce      json
+// @Param        id   path      string  true  "ID de l'alerte"
+// @Success      200  {object}  models.Alert
+// @Failure      404  {string}  string "Alerte non trouvée"
+// @Router       /alerts/{id} [get]
 func GetAlertHandler(w http.ResponseWriter, r *http.Request) {
 	idStr := r.Context().Value("alertID").(string)
 	id, err := uuid.FromString(idStr)

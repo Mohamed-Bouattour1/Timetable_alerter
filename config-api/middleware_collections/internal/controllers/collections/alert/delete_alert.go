@@ -7,7 +7,13 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-// DELETE /alerts/{id}
+// DeleteAlertHandler godoc
+// @Summary      Supprime une alerte
+// @Tags         alerts
+// @Param        id   path      string  true  "ID de l'alerte"
+// @Success      204  {string}  string "Suppression réussie"
+// @Failure      400  {string}  string "ID invalide"
+// @Router       /alerts/{id} [delete]
 func DeleteAlertHandler(w http.ResponseWriter, r *http.Request) {
 	idStr := r.Context().Value("alertID").(string)
 	id, err := uuid.FromString(idStr)

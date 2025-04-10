@@ -9,7 +9,16 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// POST /alerts
+// PostAlertHandler godoc
+// @Summary      Crée une alerte
+// @Tags         alerts
+// @Accept       json
+// @Produce      json
+// @Param        alert  body      models.Alert  true  "Nouvelle alerte"
+// @Success      201    {object}  models.Alert
+// @Failure      400    {string}  string "JSON invalide ou UUID incorrect"
+// @Failure      500    {string}  string "Erreur serveur"
+// @Router       /alerts [post]
 func PostAlertHandler(w http.ResponseWriter, r *http.Request) {
 	var body struct {
 		Email    string `json:"email"`
