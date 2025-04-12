@@ -2,9 +2,11 @@ package events
 
 import (
 	"encoding/json"
+	"time"
 	"timetable-api/internal/helpers"
 	"timetable-api/internal/models"
 
+	"github.com/gofrs/uuid"
 	"github.com/sirupsen/logrus"
 )
 
@@ -63,4 +65,56 @@ func InsertEvent(e models.Event) error {
 
 	logrus.Infof("Event inséré : %s", e.ID)
 	return nil
+}
+
+func GetAllEvents() ([]models.Event, error) {
+	rows, err := helpers.DB.Query("SELECT id, resource_ids, uid, description, name, start, end, location, last_update FROM events")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var result []models.Event
+
+	for rows.Next() {
+		var e models.Event
+		var resourceIds string
+		var idStr string
+		var start, end, lastUpdate time.Time
+
+		if err := rows.Scan(&idStr, &resourceIds, &e.UID, &e.Description, &e.Name, &start, &end, &e.Location, &lastUpdate); err != nil {
+			return nil, err
+		}
+
+		e.ID, _ = uuid.FromString(idStr)
+		e.Start = start
+		e.End = end
+		e.LastUpdate = lastUpdate
+		json.Unmarshal([]byte(resourceIds), &e.ResourceIds)
+
+		result = append(result, e)
+	}
+
+	return result, nil
+}
+
+func GetEventByID(id uuid.UUID) (models.Event, error) {
+	row := helpers.DB.QueryRow("SELECT id, resource_ids, uid, description, name, start, end, location, last_update FROM events WHERE id = ?", id.String())
+
+	var e models.Event
+	var idStr, resourceIds string
+	var start, end, lastUpdate time.Time
+
+	err := row.Scan(&idStr, &resourceIds, &e.UID, &e.Description, &e.Name, &start, &end, &e.Location, &lastUpdate)
+	if err != nil {
+		return models.Event{}, err
+	}
+
+	e.ID, _ = uuid.FromString(idStr)
+	e.Start = start
+	e.End = end
+	e.LastUpdate = lastUpdate
+	json.Unmarshal([]byte(resourceIds), &e.ResourceIds)
+
+	return e, nil
 }

@@ -42,3 +42,11 @@ func CreateEvent(
 	err = events.InsertEvent(event)
 	return event, err
 }
+
+func GetEvents() ([]models.Event, error) {
+	return events.GetAllEvents()
+}
+
+func GetEventByID(id uuid.UUID) (models.Event, error) {
+	return events.GetEventByID(id)
+}

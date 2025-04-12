@@ -1,3 +1,9 @@
+// @title           Timetable API
+// @version         1.0
+// @description     Microservice de gestion des événements de l'emploi du temps
+// @host      localhost:8080
+// @BasePath  /
+
 package internal
 
 import (
@@ -9,14 +15,18 @@ import (
 	httpSwagger "github.com/swaggo/http-swagger"
 )
 
-// SetupRoutes configure toutes les routes
+// configurer toutes les routes
 func SetupRoutes() *chi.Mux {
 	r := chi.NewRouter()
 
-	// Routes pour les events (cours)
+	// Routes pour les events
 	r.Route("/events", func(r chi.Router) {
-		r.Post("/", eventCtrl.PostEventHandler) // POST /events
-		// On ajoutera GET, PUT, DELETE ici plus tard
+		r.Post("/", eventCtrl.PostEventHandler)   // POST /events
+		r.Get("/", eventCtrl.GetAllEventsHandler) // GET /events
+		r.Route("/{id}", func(r chi.Router) {
+			r.Use(eventCtrl.EventCtx)                 // context
+			r.Get("/", eventCtrl.GetEventByIDHandler) // GET /events/{id}
+		})
 	})
 
 	// Route Swagger

@@ -1,3 +1,4 @@
+basePath: /
 definitions:
   models.Event:
     properties:
@@ -31,10 +32,31 @@ definitions:
         description: Identifiant unique externe
         type: string
     type: object
+host: localhost:8080
 info:
   contact: {}
+  description: Microservice de gestion des événements de l'emploi du temps
+  title: Timetable API
+  version: "1.0"
 paths:
   /events:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Event'
+            type: array
+        "500":
+          description: Erreur serveur
+          schema:
+            type: string
+      summary: Liste tous les événements
+      tags:
+      - events
     post:
       consumes:
       - application/json
@@ -62,6 +84,32 @@ paths:
           schema:
             type: string
       summary: Crée un événement
+      tags:
+      - events
+  /events/{id}:
+    get:
+      parameters:
+      - description: ID de l'événement
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Event'
+        "400":
+          description: ID invalide
+          schema:
+            type: string
+        "404":
+          description: Événement non trouvé
+          schema:
+            type: string
+      summary: Récupère un événement par ID
       tags:
       - events
 swagger: "2.0"
