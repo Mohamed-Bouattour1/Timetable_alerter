@@ -44,8 +44,8 @@ func main() {
 	//Lire le port
 	port := os.Getenv("API_TIMETABLE_PORT")
 	if port == "" {
-		port = "8080"
-		logrus.Warn("Aucun port défini, utilisation du port 8080 par défaut")
+		port = "9090"
+		logrus.Warn("Aucun port défini, utilisation du port 9090 par défaut")
 	}
 
 	//Démarrer le serveur

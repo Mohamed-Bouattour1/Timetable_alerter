@@ -62,5 +62,6 @@ func recoverAndSendEvents(ctx context.Context) {
 				logrus.Errorf("Échec publication NATS pour event %s", e.ID)
 			}
 		}
+
 	}
 }
