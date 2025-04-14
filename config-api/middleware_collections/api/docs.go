@@ -383,11 +383,10 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "timetable_id": {
-                    "description": "clé étrangère vers Timetable",
+                    "description": "clé étrangère vers Resource",
                     "type": "string"
                 },
                 "when": {
-                    "description": "always, room, added, removed",
                     "type": "string"
                 }
             }

@@ -8,7 +8,7 @@ import (
 	"github.com/gofrs/uuid"
 )
 
-// CreateTables crée les tables si elles n'existent pas
+// créer les tables
 func CreateTables() error {
 	db := helpers.DB
 
@@ -43,7 +43,7 @@ func CreateTables() error {
 	return nil
 }
 
-// InsertResource ajoute une nouvelle resource
+// ajoute une nouvelle resource
 func InsertResource(r models.Resource) error {
 	_, err := helpers.DB.Exec(
 		"INSERT INTO resources (id, name, url, created_at) VALUES (?, ?, ?, ?)",
@@ -52,7 +52,7 @@ func InsertResource(r models.Resource) error {
 	return err
 }
 
-// InsertAlert ajoute une nouvelle alerte
+// ajoute une nouvelle alerte
 func InsertAlert(a models.Alert) error {
 	_, err := helpers.DB.Exec(
 		`INSERT INTO alerts (id, email, resource, "when", created_at) VALUES (?, ?, ?, ?, ?)`,
@@ -61,7 +61,7 @@ func InsertAlert(a models.Alert) error {
 	return err
 }
 
-// GetAllResources récupère toutes les resources
+// récupère toutes les resources
 func GetAllResources() ([]models.Resource, error) {
 	rows, err := helpers.DB.Query("SELECT id, name, url, created_at FROM resources")
 	if err != nil {
@@ -86,7 +86,7 @@ func GetAllResources() ([]models.Resource, error) {
 	return resources, nil
 }
 
-// GetAllAlerts récupère toutes les alertes
+// récupère toutes les alertes
 func GetAllAlerts() ([]models.Alert, error) {
 	rows, err := helpers.DB.Query(`SELECT id, email, resource, "when", created_at FROM alerts`)
 	if err != nil {
