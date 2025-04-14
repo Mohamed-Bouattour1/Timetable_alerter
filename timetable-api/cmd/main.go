@@ -26,15 +26,15 @@ func main() {
 
 	// Lancer le consumer dans une Go routine
 	go func() {
-		logrus.Info("📡 Lancement du consumer NATS...")
+		logrus.Info("Lancement du consumer NATS...")
 		consumer, err := events_consumers.EventConsumer()
 		if err != nil {
-			logrus.Warnf("❌ Erreur création consumer : %v", err)
+			logrus.Warnf("Erreur création consumer : %v", err)
 			return
 		}
 		err = events_consumers.Consume(*consumer)
 		if err != nil {
-			logrus.Warnf("❌ Erreur consommation NATS : %v", err)
+			logrus.Warnf("Erreur consommation NATS : %v", err)
 		}
 	}()
 
