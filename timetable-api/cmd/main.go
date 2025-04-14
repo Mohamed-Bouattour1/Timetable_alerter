@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"timetable-api/internal"
+	events_consumers "timetable-api/internal/events_consumers"
 	"timetable-api/internal/helpers"
 	"timetable-api/internal/repositories/events"
 
@@ -19,6 +20,23 @@ func main() {
 	if err := events.CreateTables(); err != nil {
 		logrus.Fatal("Erreur création des tables :", err)
 	}
+
+	// Connexion à NATS
+	helpers.InitNats()
+
+	// Lancer le consumer dans une Go routine
+	go func() {
+		logrus.Info("📡 Lancement du consumer NATS...")
+		consumer, err := events_consumers.EventConsumer()
+		if err != nil {
+			logrus.Warnf("❌ Erreur création consumer : %v", err)
+			return
+		}
+		err = events_consumers.Consume(*consumer)
+		if err != nil {
+			logrus.Warnf("❌ Erreur consommation NATS : %v", err)
+		}
+	}()
 
 	//Définir les routes
 	r := internal.SetupRoutes()

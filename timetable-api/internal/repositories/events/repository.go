@@ -98,14 +98,14 @@ func GetAllEvents() ([]models.Event, error) {
 	return result, nil
 }
 
-func GetEventByID(id uuid.UUID) (models.Event, error) {
-	row := helpers.DB.QueryRow("SELECT id, resource_ids, uid, description, name, start, end, location, last_update FROM events WHERE id = ?", id.String())
+func GetEventByUID(uid string) (models.Event, error) {
+	row := helpers.DB.QueryRow("SELECT id, uid, description, name, start, end, location, last_update, resource_ids FROM events WHERE uid = ?", uid)
 
 	var e models.Event
-	var idStr, resourceIds string
+	var idStr, resourceIdsStr string
 	var start, end, lastUpdate time.Time
 
-	err := row.Scan(&idStr, &resourceIds, &e.UID, &e.Description, &e.Name, &start, &end, &e.Location, &lastUpdate)
+	err := row.Scan(&idStr, &e.UID, &e.Description, &e.Name, &start, &end, &e.Location, &lastUpdate, &resourceIdsStr)
 	if err != nil {
 		return models.Event{}, err
 	}
@@ -114,7 +114,20 @@ func GetEventByID(id uuid.UUID) (models.Event, error) {
 	e.Start = start
 	e.End = end
 	e.LastUpdate = lastUpdate
-	json.Unmarshal([]byte(resourceIds), &e.ResourceIds)
+	json.Unmarshal([]byte(resourceIdsStr), &e.ResourceIds)
 
 	return e, nil
+}
+
+func UpdateEvent(e models.Event) error {
+	resourceIdsJson, _ := json.Marshal(e.ResourceIds)
+
+	_, err := helpers.DB.Exec(`
+		UPDATE events SET 
+			description = ?, name = ?, start = ?, end = ?, location = ?, last_update = ?, resource_ids = ?
+		WHERE uid = ?
+	`,
+		e.Description, e.Name, e.Start, e.End, e.Location, e.LastUpdate, string(resourceIdsJson), e.UID)
+
+	return err
 }

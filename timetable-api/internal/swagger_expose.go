@@ -21,12 +21,7 @@ func SetupRoutes() *chi.Mux {
 
 	// Routes pour les events
 	r.Route("/events", func(r chi.Router) {
-		r.Post("/", eventCtrl.PostEventHandler)   // POST /events
 		r.Get("/", eventCtrl.GetAllEventsHandler) // GET /events
-		r.Route("/{id}", func(r chi.Router) {
-			r.Use(eventCtrl.EventCtx)                 // context
-			r.Get("/", eventCtrl.GetEventByIDHandler) // GET /events/{id}
-		})
 	})
 
 	// Route Swagger

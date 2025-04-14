@@ -35,3 +35,15 @@ type Event struct {
 	// Dernière mise à jour
 	LastUpdate time.Time `json:"lastUpdate"`
 }
+
+type AlertDiff struct {
+	Resource uuid.UUID     `json:"resource"`
+	Type     string        `json:"type"` // "new" ou "updated"
+	Changes  []FieldChange `json:"changes"`
+}
+
+type FieldChange struct {
+	Field    string `json:"field"`
+	OldValue string `json:"old"`
+	NewValue string `json:"new"`
+}
